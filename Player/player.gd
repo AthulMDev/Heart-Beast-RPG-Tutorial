@@ -6,18 +6,22 @@ enum{
 	attack,
 }
 
-const roll_speed = 150
-const maxSpeed = 120
-const acceleration = 500
-const friction = 500
+export var roll_speed = 150
+export var maxSpeed = 120
+export var acceleration = 500
+export var friction = 500
 onready var animationDirector = $AnimationTree
 onready var animationScript = animationDirector.get("parameters/playback")
 onready var swordhitmanager = $hitboxpivot/swordhitbox
 var state = move
 var velocity = Vector2.ZERO
-var roll_vector = Vector2.RIGHT
+var roll_vector = Vector2.DOWN
 
-func _process(_delta):
+func _ready():
+	animationDirector.active = true
+	swordhitmanager.knockback_vector = roll_vector
+
+func _physics_process(_delta):
 	match state:
 		move:
 			move_state(_delta)
@@ -38,6 +42,7 @@ func move_state(_delta):
 	
 	if input_vector != Vector2.ZERO:
 		roll_vector = input_vector
+		swordhitmanager.knockback_vector = input_vector
 		animationDirector.set("parameters/idle/blend_position", input_vector)
 		animationDirector.set("parameters/run/blend_position", input_vector)
 		animationDirector.set("parameters/attack/blend_position", input_vector)
@@ -47,7 +52,7 @@ func move_state(_delta):
 	else:
 		animationScript.travel("idle")
 		velocity = velocity.move_toward(Vector2.ZERO, friction * _delta)
-	move()
+	moves()
 
 	if Input.is_action_just_pressed("Roll"):
 		state = roll
@@ -57,9 +62,9 @@ func move_state(_delta):
 func roll_state(_delta):
 	velocity = roll_vector * roll_speed 
 	animationScript.travel("roll")
-	move()
+	moves()
 
-func move():
+func moves():
 	velocity = move_and_slide(velocity)
 
 func attack_state(_delta):

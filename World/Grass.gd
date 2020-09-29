@@ -1,7 +1,8 @@
 extends Node2D
 
+const graphicloader = preload("res://Effects/grasseffect.tscn")
+
 func graphic_expresser():
-	var graphicloader = load("res://Effects/grasseffect.tscn")
 	var graphicinstancer = graphicloader.instance()
 	var currentlevel = get_tree().current_scene
 	currentlevel.add_child(graphicinstancer)

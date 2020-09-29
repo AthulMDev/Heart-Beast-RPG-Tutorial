@@ -21,7 +21,7 @@ onready var animationDirector = $AnimationTree
 onready var animationScript = animationDirector.get(\"parameters/playback\")
 var state = move
 var velocity = Vector2.ZERO
-var roll_vector = Vector2.RIGHT
+var roll_vector = Vector2.DOWN
 
 func _physics_process(delta):
 	match state:
@@ -675,6 +675,7 @@ script = SubResource( 1 )
 position = Vector2( 0, -9 )
 texture = ExtResource( 2 )
 hframes = 60
+frame = 36
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
@@ -701,12 +702,11 @@ anims/runup = SubResource( 18 )
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 45 )
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/playback = SubResource( 46 )
-parameters/attack/blend_position = Vector2( -0.00123608, 0.00862074 )
-parameters/idle/blend_position = Vector2( 0, 0 )
-parameters/roll/blend_position = Vector2( 0, 0 )
-parameters/run/blend_position = Vector2( 0, 0 )
+parameters/attack/blend_position = Vector2( 0, 1 )
+parameters/idle/blend_position = Vector2( 0, 1 )
+parameters/roll/blend_position = Vector2( 0, 1 )
+parameters/run/blend_position = Vector2( 0, 1 )
 
 [node name="hitboxpivot" type="Position2D" parent="."]
 position = Vector2( 0, -4 )
